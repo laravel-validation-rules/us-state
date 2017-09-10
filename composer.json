@@ -1,0 +1,40 @@
+{
+    "name": "tylercd100/laravel-validator-state",
+    "description": "Validate that a states and provinces for US and Canada",
+    "keywords": [
+        "laravel",
+        "validator",
+        "phone",
+        "tylercd100"
+    ],
+    "homepage": "https://github.com/tylercd100/laravel-validator-state",
+    "license": "MIT",  
+    "authors": [
+        {
+            "name": "Tyler Arbon",
+            "email": "tylercd100@gmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-4":{
+            "Tylercd100\\Validator\\State\\":"src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tylercd100\\Validator\\State\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",  
+    "require": {
+        "illuminate/validation": "^5.0",
+        "illuminate/support": "^5.0",
+        "php": "^5.5.9|^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8|^5.0",
+        "orchestra/testbench": "^3.2"
+    },
+    "suggest": {
+    }
+}
