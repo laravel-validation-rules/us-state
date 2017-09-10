@@ -1,13 +1,13 @@
 {
-    "name": "tylercd100/laravel-validator-state",
-    "description": "Validate that a states and provinces for US and Canada",
+    "name": "laravel-validation-rules/us-state",
+    "description": "Validate strings that contain states and provinces for US and Canada",
     "keywords": [
         "laravel",
         "validator",
         "phone",
         "tylercd100"
     ],
-    "homepage": "https://github.com/tylercd100/laravel-validator-state",
+    "homepage": "https://github.com/laravel-validation-rules/us-state",
     "license": "MIT",  
     "authors": [
         {
@@ -17,12 +17,12 @@
     ],
     "autoload":{
         "psr-4":{
-            "Tylercd100\\Validator\\State\\":"src/"
+            "LVR\\State\\":"src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tylercd100\\Validator\\State\\Tests\\": "tests/"
+            "LVR\\State\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable",  
