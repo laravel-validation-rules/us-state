@@ -33,4 +33,6 @@ Validator::make(['test' => 'UT'], ['test' => 'state:abbr']); //true
 # Mix and match
 Validator::make(['test' => 'UT'], ['test' => 'state:usa,abbr']); //true
 Validator::make(['test' => 'Alberta'], ['test' => 'state:canada,full']); //true
+
 ```
+ 
