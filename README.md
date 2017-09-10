@@ -1,10 +1,10 @@
 # Validate states and provinces for USA and Canada with Laravel 5
-[![Latest Version](https://img.shields.io/github/release/tylercd100/laravel-validator-state.svg?style=flat-square)](https://github.com/tylercd100/laravel-validator-state/releases)
+[![Latest Version](https://img.shields.io/github/release/laravel-validation-rules/us-state.svg?style=flat-square)](https://github.com/laravel-validation-rules/us-state/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://travis-ci.org/tylercd100/laravel-validator-state.svg?branch=master)](https://travis-ci.org/tylercd100/laravel-validator-state)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tylercd100/laravel-validator-state/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tylercd100/laravel-validator-state/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/tylercd100/laravel-validator-state/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/tylercd100/laravel-validator-state/?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/tylercd100/laravel-validator-state.svg?style=flat-square)](https://packagist.org/packages/tylercd100/laravel-validator-state)
+[![Build Status](https://travis-ci.org/laravel-validation-rules/us-state.svg?branch=master)](https://travis-ci.org/laravel-validation-rules/us-state)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/laravel-validation-rules/us-state.svg?style=flat-square)](https://packagist.org/packages/laravel-validation-rules/us-state)
 
 ## Installation
 
