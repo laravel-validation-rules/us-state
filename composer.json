@@ -1,6 +1,6 @@
 {
     "name": "laravel-validation-rules/us-state",
-    "description": "Validate strings that contain states and provinces for US and Canada",
+    "description": "Validate US States and Canada Provinces",
     "keywords": [
         "laravel",
         "validator",
@@ -27,13 +27,13 @@
     },
     "minimum-stability": "stable",  
     "require": {
-        "illuminate/validation": "^5.0",
-        "illuminate/support": "^5.0",
-        "php": "^5.5.9|^7.0"
+        "illuminate/contracts": "^5.5",
+        "illuminate/support": "^5.5",
+        "php": "^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8|^5.0",
-        "orchestra/testbench": "^3.2"
+        "phpunit/phpunit": "^6.0",
+        "orchestra/testbench": "^3.5"
     },
     "suggest": {
     }

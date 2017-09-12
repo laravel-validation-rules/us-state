@@ -2,9 +2,9 @@
 
 namespace LVR\State\Tests;
 
-use Exception;
-use LVR\State\Validator as StateValidator;
-use LVR\State\Parameters;
+use Illuminate\Contracts\Validation\Rule;
+use LVR\State\Abbr;
+use LVR\State\Full;
 use Validator;
 
 class ValidatorTest extends TestCase
@@ -23,139 +23,43 @@ class ValidatorTest extends TestCase
         'canada' => [ 'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland And Labrador', 'Nova Scotia', 'Northwest Territories', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon',],
     ];
 
-    public function testItCreatesAnInstanceOfStateValidator()
-    {
-        $obj = new StateValidator(new Parameters([]));
-        $this->assertInstanceOf(StateValidator::class, $obj);
-    }
-
-    protected function validate($value, $rule = 'state')
+    protected function validate($value, Rule $rule)
     {
         return !(Validator::make(['attr' => $value], ['attr' => $rule])->fails());
     }
 
     public function testValidatorSimple()
     {
-        $this->assertEquals(true, $this->validate('UT', 'state'));
-        $this->assertEquals(true, $this->validate('ut', 'state'));
-        $this->assertEquals(true, $this->validate('Utah', 'state'));
-        $this->assertEquals(true, $this->validate('utah', 'state'));
+        $this->assertEquals(true, $this->validate('UT', new Abbr));
+        $this->assertEquals(true, $this->validate('ut', new Abbr));
+        $this->assertEquals(true, $this->validate('Utah', new Full));
+        $this->assertEquals(true, $this->validate('utah', new Full));
     }
 
     public function testValidatorUsa()
     {
-        $this->assertEquals(true, $this->validate('UT', 'state:usa'));
-        $this->assertEquals(true, $this->validate('ut', 'state:usa'));
-        $this->assertEquals(true, $this->validate('Utah', 'state:usa'));
-        $this->assertEquals(true, $this->validate('utah', 'state:usa'));
+        $this->assertEquals(true, $this->validate('UT', new Abbr("US")));
+        $this->assertEquals(true, $this->validate('ut', new Abbr("US")));
+        $this->assertEquals(true, $this->validate('Utah', new Full("US")));
+        $this->assertEquals(true, $this->validate('utah', new Full("US")));
 
-        $this->assertEquals(false, $this->validate('BC', 'state:usa'));
-        $this->assertEquals(false, $this->validate('bc', 'state:usa'));
-        $this->assertEquals(false, $this->validate('British Columbia', 'state:usa'));
-        $this->assertEquals(false, $this->validate('british columbia', 'state:usa'));
+        $this->assertEquals(false, $this->validate('BC', new Abbr("US")));
+        $this->assertEquals(false, $this->validate('bc', new Abbr("US")));
+        $this->assertEquals(false, $this->validate('British Columbia', new Full("US")));
+        $this->assertEquals(false, $this->validate('british columbia', new Full("US")));
     }
 
     public function testValidatorCanada()
     {
-        $this->assertEquals(true, $this->validateAbbrs('canada', 'state:canada'));
-        $this->assertEquals(true, $this->validate('bc', 'state:canada'));
-        $this->assertEquals(true, $this->validate('British Columbia', 'state:canada'));
-        $this->assertEquals(true, $this->validate('british columbia', 'state:canada'));
+        $this->assertEquals(true, $this->validateAbbrs('canada', new Abbr("CA")));
+        $this->assertEquals(true, $this->validate('bc', new Abbr("CA")));
+        $this->assertEquals(true, $this->validate('British Columbia', new Full("CA")));
+        $this->assertEquals(true, $this->validate('british columbia', new Full("CA")));
 
-        $this->assertEquals(false, $this->validateAbbrs('usa', 'state:canada'));
-        $this->assertEquals(false, $this->validate('ut', 'state:canada'));
-        $this->assertEquals(false, $this->validate('Utah', 'state:canada'));
-        $this->assertEquals(false, $this->validate('utah', 'state:canada'));
-    }
-
-    public function testValidatorUppercase()
-    {
-        $this->assertEquals(true, $this->validateAbbrs('usa', 'state:upper'));
-        $this->assertEquals(true, $this->validateAbbrs('canada', 'state:upper'));
-        $this->assertEquals(true, $this->validate('UTAH', 'state:upper'));
-        $this->assertEquals(true, $this->validate('BRITISH COLUMBIA', 'state:upper'));
-
-        $this->assertEquals(false, $this->validate('ut', 'state:upper'));
-        $this->assertEquals(false, $this->validate('Utah', 'state:upper'));
-        $this->assertEquals(false, $this->validate('utah', 'state:upper'));
-        $this->assertEquals(false, $this->validate('bc', 'state:upper'));
-        $this->assertEquals(false, $this->validate('British Columbia', 'state:upper'));
-        $this->assertEquals(false, $this->validate('british columbia', 'state:upper'));
-    }
-
-    public function testValidatorLowercase()
-    {
-        $this->assertEquals(true, $this->validate('ut', 'state:lower'));
-        $this->assertEquals(true, $this->validate('utah', 'state:lower'));
-        $this->assertEquals(true, $this->validate('bc', 'state:lower'));
-        $this->assertEquals(true, $this->validate('british columbia', 'state:lower'));
-
-        $this->assertEquals(false, $this->validateAbbrs('usa', 'state:lower'));
-        $this->assertEquals(false, $this->validateAbbrs('canada', 'state:lower'));
-        $this->assertEquals(false, $this->validate('Utah', 'state:lower'));
-        $this->assertEquals(false, $this->validate('UTAH', 'state:lower'));
-        $this->assertEquals(false, $this->validate('British Columbia', 'state:lower'));
-        $this->assertEquals(false, $this->validate('BRITISH COLUMBIA', 'state:lower'));
-    }
-
-    public function testValidatorTitlecase()
-    {
-        $this->assertEquals(true, $this->validateAbbrs('usa', 'state:title'));
-        $this->assertEquals(true, $this->validateAbbrs('canada', 'state:title'));
-        $this->assertEquals(true, $this->validateNames('usa', 'state:title'));
-        $this->assertEquals(true, $this->validateNames('canada', 'state:title'));
-
-        $this->assertEquals(false, $this->validate('ut', 'state:title'));
-        $this->assertEquals(false, $this->validate('UTAH', 'state:title'));
-        $this->assertEquals(false, $this->validate('utah', 'state:title'));
-        $this->assertEquals(false, $this->validate('bc', 'state:title'));
-        $this->assertEquals(false, $this->validate('BRITISH COLUMBIA', 'state:title'));
-        $this->assertEquals(false, $this->validate('british columbia', 'state:title'));
-    }
-
-
-    public function testValidatorUppercaseAbreviatedUsaStates()
-    {
-        $this->assertEquals(true, $this->validateAbbrs('usa', 'state:upper,abbr,usa'));
-
-        $this->assertEquals(false, $this->validateAbbrs('canada', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('BC', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('Utah', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('British Columbia', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('ut', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('UTAH', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('utah', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('bc', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('BRITISH COLUMBIA', 'state:upper,abbr,usa'));
-        $this->assertEquals(false, $this->validate('british columbia', 'state:upper,abbr,usa'));
-    }
-
-    public function testValidatorUppercaseAbreviatedCanadaStates()
-    {
-        $this->assertEquals(true, $this->validateAbbrs('canada', 'state:upper,abbr,canada'));
-
-        $this->assertEquals(false, $this->validateAbbrs('usa', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('Utah', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('British Columbia', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('ut', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('UTAH', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('utah', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('bc', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('BRITISH COLUMBIA', 'state:upper,abbr,canada'));
-        $this->assertEquals(false, $this->validate('british columbia', 'state:upper,abbr,canada'));
-    }
-
-    public function testValidatorWithEmpty()
-    {
-        $this->assertEquals(false, $this->validate(null, 'required|state'));
-        $this->assertEquals(false, $this->validate('', 'required|state'));
-        $this->assertEquals(false, $this->validate([], 'required|state'));
-        $this->assertEquals(false, $this->validate(false, 'required|state'));
-
-        $this->assertEquals(true, $this->validate(null, 'state'));
-        $this->assertEquals(true, $this->validate('', 'state'));
-        $this->assertEquals(true, $this->validate([], 'state'));
-        $this->assertEquals(false, $this->validate(false, 'state'));
+        $this->assertEquals(false, $this->validateAbbrs('usa', new Abbr("CA")));
+        $this->assertEquals(false, $this->validate('ut', new Abbr("CA")));
+        $this->assertEquals(false, $this->validate('Utah', new Full("CA")));
+        $this->assertEquals(false, $this->validate('utah', new Full("CA")));
     }
     
     protected function validateAbbrs($country, $rule)

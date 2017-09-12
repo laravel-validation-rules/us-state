@@ -1,38 +1,49 @@
-# Validate states and provinces for USA and Canada with Laravel 5
-[![Latest Version](https://img.shields.io/github/release/laravel-validation-rules/us-state.svg?style=flat-square)](https://github.com/laravel-validation-rules/us-state/releases)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://travis-ci.org/laravel-validation-rules/us-state.svg?branch=master)](https://travis-ci.org/laravel-validation-rules/us-state)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel-validation-rules/us-state.svg?style=flat-square)](https://packagist.org/packages/laravel-validation-rules/us-state)
+# State
+
+Validate US States and Canada Provinces
+
+<p >
+  <a href="https://travis-ci.org/laravel-validation-rules/us-state">
+    <img src="https://img.shields.io/travis/laravel-validation-rules/us-state.svg?style=flat-square">
+  </a>
+  <a href="https://scrutinizer-ci.com/g/laravel-validation-rules/us-state/code-structure/master/code-coverage">
+    <img src="https://img.shields.io/scrutinizer/coverage/g/laravel-validation-rules/us-state.svg?style=flat-square">
+  </a>
+  <a href="https://scrutinizer-ci.com/g/laravel-validation-rules/us-state">
+    <img src="https://img.shields.io/scrutinizer/g/laravel-validation-rules/us-state.svg?style=flat-square">
+  </a>
+  <a href="https://github.com/laravel-validation-rules/us-state/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/laravel-validation-rules/us-state.svg?style=flat-square">
+  </a>
+  <a href="https://twitter.com/tylercd100">
+    <img src="http://img.shields.io/badge/author-@tylercd100-blue.svg?style=flat-square">
+  </a>
+</p>
 
 ## Installation
 
-Install via [composer](https://getcomposer.org/) - In the terminal:
 ```bash
-composer require laravel-validation-rules/state
-```
-
-Now add the following to the `providers` array in your `config/app.php`
-```php
-LVR\State\ServiceProvider::class
+composer require laravel-validation-rules/us-state
 ```
 
 ## Usage
 
 ```php
-# USA vs Canada
-Validator::make(['test' => 'UT'], ['test' => 'state']); //true
-Validator::make(['test' => 'UT'], ['test' => 'state:usa']); //true
-Validator::make(['test' => 'BC'], ['test' => 'state:canada']); //true
+use LVR\State\Abbr;
+use LVR\State\Full;
 
 # Abbreviation vs Full
-Validator::make(['test' => 'Utah'], ['test' => 'state:full']); //true
-Validator::make(['test' => 'UT'], ['test' => 'state:abbr']); //true
+$request->validate(['test' => 'UT'], ['test' => new Abbr]); // Pass!
+$request->validate(['test' => 'BC'], ['test' => new Abbr); // Pass!
+$request->validate(['test' => 'Utah'], ['test' => new Full]); // Pass!
+$request->validate(['test' => 'Alberta'], ['test' => new Full]); // Pass!
 
-# Mix and match
-Validator::make(['test' => 'UT'], ['test' => 'state:usa,abbr']); //true
-Validator::make(['test' => 'Alberta'], ['test' => 'state:canada,full']); //true
+# Abbreviation - USA vs Canada
+$request->validate(['test' => 'UT'], ['test' => new Abbr]); // Pass!
+$request->validate(['test' => 'UT'], ['test' => new Abbr('US')]); // Pass!
+$request->validate(['test' => 'BC'], ['test' => new Abbr('CA')); // Pass!
 
+# Full - USA vs Canada
+$request->validate(['test' => 'Utah'], ['test' => new Full('US')]); // Pass!
+$request->validate(['test' => 'Alberta'], ['test' => new Full('CA')]); // Pass!
 ```
- 

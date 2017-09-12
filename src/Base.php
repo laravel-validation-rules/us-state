@@ -2,14 +2,43 @@
 
 namespace LVR\State;
 
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class Validator
+abstract class Base implements Rule
 {
-    protected $params;
+    protected $country;
+    protected $subject;
+
+    function __construct(string $country = null)
+    {
+        $v = Validator::make([
+            "country" => $country,
+        ], [
+            "country" => "nullable|string|in:US,CA",
+        ]);
+
+        if ($v->failed()) {
+            throw new \Exception($v->errors()->first(), 1);
+        }
+
+        $this->country = $country;
+        $this->subject = $this->getSubject($this->country);
+    }
+   
+    protected function isFull($value, string $country = null): bool
+    {
+        return in_array(Str::title($value), $this->getStateNames($country));
+    }
+
+    protected function isAbbr($value, string $country = null): bool
+    {
+        return in_array(Str::upper($value), $this->getStateAbbreviations($country));
+    }
 
     protected $states = [
-        "usa" => [
+        "US" => [
             ["abbr" => 'AL', "name" => 'Alabama'],
             ["abbr" => 'AK', "name" => 'Alaska'],
             ["abbr" => 'AZ', "name" => 'Arizona'],
@@ -70,7 +99,7 @@ class Validator
             ["abbr" => 'PR', "name" => 'Puerto Rico'],
             ["abbr" => 'VI', "name" => 'Virgin Islands']
         ],
-        "canada" => [
+        "CA" => [
             ["abbr" => 'AB', "name" => 'Alberta'],
             ["abbr" => 'BC', "name" => 'British Columbia'],
             ["abbr" => 'MB', "name" => 'Manitoba'],
@@ -87,65 +116,17 @@ class Validator
         ],
     ];
 
-    public function __construct(Parameters $params)
+    protected function getSubject(string $country = null): string
     {
-        $this->params = $params;
-    }
-
-    public function validate($value)
-    {
-        return $value === null || $value === [] || (
-            is_string($value) &&
-            Str::length($value) > 0 &&
-            $this->validateCountry($value) &&
-            $this->validateCase($value) &&
-            $this->validateType($value)
-        );
-    }
-
-    protected function validateCountry($value)
-    {
-        $country = $this->params->getCountry();
-        return $this->isAbbr($value, $country) || $this->isFull($value, $country);
-    }
-
-    protected function validateCase($value)
-    {
-        switch ($this->params->getCase()) {
-            case 'lower':
-                return $value === Str::lower($value);
-
-            case 'upper':
-                return $value === Str::upper($value);
-
-            case 'title':
-                return $this->isAbbr($value) ? $value === Str::upper($value) : $value === Str::title($value);
-
+        switch($country)
+        {
+            case "US":
+                return "State";
+            case "CA":
+                return "Province";
             default:
-                return true;
+                return "State or Province";
         }
-    }
-
-    protected function validateType($value)
-    {
-        switch ($this->params->getType()) {
-            case 'abbr':
-                return $this->isAbbr($value);
-            case 'full':
-                return $this->isFull($value);
-            default:
-                return true;
-        }
-    }
-
-    protected function isFull($value, $country = null)
-    {
-        return in_array(Str::title($value), $this->getStateNames($country));
-    }
-
-    protected function isAbbr($value, $country = null)
-    {
-        return in_array(Str::upper($value), $this->getStateAbbreviations($country));
     }
 
     protected function getStateAbbreviations($country = null)
@@ -173,4 +154,20 @@ class Validator
         }
         return $x;
     }
+
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param  string $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    abstract public function passes($attribute, $value);
+
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    abstract public function message();
 }
