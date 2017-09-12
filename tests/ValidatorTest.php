@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Rule;
 use LVR\State\Abbr;
 use LVR\State\Full;
 use Validator;
+use Exception;
 
 class ValidatorTest extends TestCase
 {
@@ -26,6 +27,12 @@ class ValidatorTest extends TestCase
     protected function validate($value, Rule $rule)
     {
         return !(Validator::make(['attr' => $value], ['attr' => $rule])->fails());
+    }
+
+    public function testWithInvalidCountry()
+    {
+        $this->expectException(Exception::class);
+        $this->validate("UT", new Abbr("ZZ"));
     }
 
     public function testValidatorSimple()

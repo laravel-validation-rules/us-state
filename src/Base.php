@@ -19,7 +19,7 @@ abstract class Base implements Rule
             "country" => "nullable|string|in:US,CA",
         ]);
 
-        if ($v->failed()) {
+        if ($v->fails()) {
             throw new \Exception($v->errors()->first(), 1);
         }
 
