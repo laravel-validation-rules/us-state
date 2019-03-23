@@ -17,11 +17,15 @@ class ValidatorTest extends TestCase
             'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY',
             'AS', 'FM', 'GU', 'MH', 'MP', 'PW', 'PR', 'VI'],
         'canada' => ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'],
+        'mexico' => ['AGU', 'BCN', 'BCS', 'CAM', 'CHP', 'CHH', 'CMX', 'COA', 'COL', 'DUR', 'GUA',
+            'GRO', 'HID', 'JAL', 'MIC', 'MOR', 'MEX', 'NAY', 'NLE', 'OAX', 'PUE', 'QUE', 'ROO',
+            'SLP', 'SIN', 'SON', 'TAB', 'TAM', 'TLA', 'VER', 'YUC', 'ZAC'],
     ];
 
     protected $names = [
         'usa' => ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'District Of Columbia', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'American Samoa', 'Federated States Of Micronesia', 'Guam', 'Marshall Islands', 'Northern Mariana Islands', 'Pala', 'Puerto Rico', 'Virgin Islands'],
-        'canada' => [ 'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland And Labrador', 'Nova Scotia', 'Northwest Territories', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon',],
+        'canada' => [ 'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland And Labrador', 'Nova Scotia', 'Northwest Territories', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'],
+        'mexico' => [ 'Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Mexico City', 'Durango', 'Guanajuato', 'Guerrero', 'Hidalgo', 'Jalisco', 'México', 'Michoacán', 'Morelos', 'Nayarit', 'Nuevo León', 'Oaxaca', 'Puebla', 'Querétaro', 'Quintana Roo', 'San Luis Potosí', 'Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatán', 'Zacatecas'],
     ];
 
     protected function validate($value, Rule $rule)
@@ -68,7 +72,20 @@ class ValidatorTest extends TestCase
         $this->assertEquals(false, $this->validate('Utah', new Full("CA")));
         $this->assertEquals(false, $this->validate('utah', new Full("CA")));
     }
-    
+
+    public function testValidatorMexico()
+    {
+        $this->assertEquals(true, $this->validateAbbrs('mexico', new Abbr("MX")));
+        $this->assertEquals(true, $this->validate('son', new Abbr("MX")));
+        $this->assertEquals(true, $this->validate('Sonora', new Full("MX")));
+        $this->assertEquals(true, $this->validate('sonora', new Full("MX")));
+
+        $this->assertEquals(false, $this->validateAbbrs('usa', new Abbr("MX")));
+        $this->assertEquals(false, $this->validate('ut', new Abbr("MX")));
+        $this->assertEquals(false, $this->validate('Utah', new Full("MX")));
+        $this->assertEquals(false, $this->validate('utah', new Full("MX")));
+    }
+
     protected function validateAbbrs($country, $rule)
     {
         $x = true;
