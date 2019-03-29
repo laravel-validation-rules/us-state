@@ -16,7 +16,7 @@ abstract class Base implements Rule
         $v = Validator::make([
             "country" => $country,
         ], [
-            "country" => "nullable|string|in:US,CA",
+            "country" => "nullable|string|in:US,CA,MX",
         ]);
 
         if ($v->fails()) {
@@ -114,6 +114,40 @@ abstract class Base implements Rule
             ["abbr" => 'SK', "name" => 'Saskatchewan'],
             ["abbr" => 'YT', "name" => 'Yukon'],
         ],
+		"MX" => [
+            ["abbr" => "AGU", "name" => "Aguascalientes"],
+            ["abbr" => "BCN", "name" => "Baja California"],
+            ["abbr" => "BCS", "name" => "Baja California Sur"],
+            ["abbr" => "CAM", "name" => "Campeche"],
+            ["abbr" => "CHP", "name" => "Chiapas"],
+            ["abbr" => "CHH", "name" => "Chihuahua"],
+            ["abbr" => "CMX", "name" => "Ciudad de México"],
+            ["abbr" => "COA", "name" => "Coahuila de Zaragoza"],
+            ["abbr" => "COL", "name" => "Colima"],
+            ["abbr" => "DUR", "name" => "Durango"],
+            ["abbr" => "GUA", "name" => "Guanajuato"],
+            ["abbr" => "GRO", "name" => "Guerrero"],
+            ["abbr" => "HID", "name" => "Hidalgo"],
+            ["abbr" => "JAL", "name" => "Jalisco"],
+            ["abbr" => "MIC", "name" => "Michoacán de Ocampo"],
+            ["abbr" => "MOR", "name" => "Morelos"],
+            ["abbr" => "MEX", "name" => "México"],
+            ["abbr" => "NAY", "name" => "Nayarit"],
+            ["abbr" => "NLE", "name" => "Nuevo León"],
+            ["abbr" => "OAX", "name" => "Oaxaca"],
+            ["abbr" => "PUE", "name" => "Puebla"],
+            ["abbr" => "QUE", "name" => "Querétaro"],
+            ["abbr" => "ROO", "name" => "Quintana Roo"],
+            ["abbr" => "SLP", "name" => "San Luis Potosí"],
+            ["abbr" => "SIN", "name" => "Sinaloa"],
+            ["abbr" => "SON", "name" => "Sonora"],
+            ["abbr" => "TAB", "name" => "Tabasco"],
+            ["abbr" => "TAM", "name" => "Tamaulipas"],
+            ["abbr" => "TLA", "name" => "Tlaxcala"],
+            ["abbr" => "VER", "name" => "Veracruz de Ignacio de la Llave"],
+            ["abbr" => "YUC", "name" => "Yucatán"],
+            ["abbr" => "ZAC", "name" => "Zacatecas"],
+        ],
     ];
 
     protected function getSubject(string $country = null): string
@@ -121,6 +155,7 @@ abstract class Base implements Rule
         switch($country)
         {
             case "US":
+            case "MX":
                 return "State";
             case "CA":
                 return "Province";
