@@ -1,8 +1,9 @@
 language: php
 
 php:
-    - 7.0
     - 7.1
+    - 7.2
+    - 7.3
 
 env:
     matrix:
@@ -10,12 +11,12 @@ env:
         - COMPOSER_FLAGS=""
 
 before_script:
-- travis_retry composer self-update
-- travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+    - travis_retry composer self-update
+    - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
 script:
-  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+    - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+    - wget https://scrutinizer-ci.com/ocular.phar
+    - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
