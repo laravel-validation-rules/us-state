@@ -16,7 +16,8 @@ abstract class Base implements Rule
         $v = Validator::make([
             "country" => $country,
         ], [
-            "country" => "nullable|string|in:US,CA,MX,NG",
+
+            "country" => "nullable|string|in:US,CA,MX,BR,NG",
         ]);
 
         if ($v->fails()) {
@@ -147,6 +148,35 @@ abstract class Base implements Rule
             ["abbr" => "VER", "name" => "Veracruz de Ignacio de la Llave"],
             ["abbr" => "YUC", "name" => "Yucatán"],
             ["abbr" => "ZAC", "name" => "Zacatecas"],
+        ],    
+        "BR" => [
+            ["abbr" => 'AC', "name" => 'Acre'],
+	    ["abbr" => 'AL', "name" => 'Alagoas'],
+	    ["abbr" => 'AP', "name" => 'Amapá'],
+	    ["abbr" => 'AM', "name" => 'Amazonas'],
+	    ["abbr" => 'BA', "name" => 'Bahia'],
+	    ["abbr" => 'CE', "name" => 'Ceará'],
+	    ["abbr" => 'DF', "name" => 'Distrito Federal'],
+	    ["abbr" => 'ES', "name" => 'Espírito Santo'],
+	    ["abbr" => 'GO', "name" => 'Goiás'],
+	    ["abbr" => 'MA', "name" => 'Maranhão'],
+	    ["abbr" => 'MT', "name" => 'Mato Grosso'],
+	    ["abbr" => 'MS', "name" => 'Mato Grosso do Sul'],
+	    ["abbr" => 'MG', "name" => 'Minas Gerais'],
+	    ["abbr" => 'PA', "name" => 'Pará'],
+	    ["abbr" => 'PB', "name" => 'Paraíba'],
+	    ["abbr" => 'PR', "name" => 'Paraná'],
+	    ["abbr" => 'PE', "name" => 'Pernambuco'],
+	    ["abbr" => 'PI', "name" => 'Piauí'],
+	    ["abbr" => 'RR', "name" => 'Roraima'],
+	    ["abbr" => 'RO', "name" => 'Rondônia'],
+	    ["abbr" => 'RJ', "name" => 'Rio de Janeiro'],
+	    ["abbr" => 'RN', "name" => 'Rio Grande do Norte'],
+	    ["abbr" => 'RS', "name" => 'Rio Grande do Sul'],
+	    ["abbr" => 'SC', "name" => 'Santa Catarina'],
+	    ["abbr" => 'SP', "name" => 'São Paulo'],
+	    ["abbr" => 'SE', "name" => 'Sergipe'],
+	    ["abbr" => 'TO', "name" => 'Tocantins'],
         ],
         "NG" => [
             ["abbr" => "AB", "name" => "Abia"],
@@ -195,6 +225,7 @@ abstract class Base implements Rule
         {
             case "US":
             case "MX":
+            case "BR":
             case "NG":
                 return "State";
             case "CA":
