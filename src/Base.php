@@ -16,7 +16,8 @@ abstract class Base implements Rule
         $v = Validator::make([
             "country" => $country,
         ], [
-            "country" => "nullable|string|in:US,CA,MX,BR",
+
+            "country" => "nullable|string|in:US,CA,MX,BR,NG",
         ]);
 
         if ($v->fails()) {
@@ -177,6 +178,45 @@ abstract class Base implements Rule
 	    ["abbr" => 'SE', "name" => 'Sergipe'],
 	    ["abbr" => 'TO', "name" => 'Tocantins'],
         ],
+        "NG" => [
+            ["abbr" => "AB", "name" => "Abia"],
+            ["abbr" => "AD", "name" => "Adamawa"],
+            ["abbr" => "AK", "name" => "Akwa Ibom"],
+            ["abbr" => "AN", "name" => "Anambra"],
+            ["abbr" => "BA", "name" => "Bauchi"],
+            ["abbr" => "BY", "name" => "Bayelsa"],
+            ["abbr" => "BE", "name" => "Benue"],
+            ["abbr" => "BO", "name" => "Borno"],
+            ["abbr" => "CR", "name" => "Cross River"],
+            ["abbr" => "DE", "name" => "Delta"],
+            ["abbr" => "EB", "name" => "Ebonyi"],
+            ["abbr" => "ED", "name" => "Edo"],
+            ["abbr" => "EK", "name" => "Ekiti"],
+            ["abbr" => "EN", "name" => "Enugu"],
+            ["abbr" => "FC", "name" => "Federal Capital Territory"],
+            ["abbr" => "GO", "name" => "Gombe"],
+            ["abbr" => "IM", "name" => "Imo"],
+            ["abbr" => "JI", "name" => "Jigawa"],
+            ["abbr" => "KD", "name" => "Kaduna"],
+            ["abbr" => "KN", "name" => "Kano"],
+            ["abbr" => "KT", "name" => "Katsina"],
+            ["abbr" => "KE", "name" => "Kebbi"],
+            ["abbr" => "KO", "name" => "Kogi"],
+            ["abbr" => "LA", "name" => "Lagos"],
+            ["abbr" => "NA", "name" => "Nasarawa"],
+            ["abbr" => "NI", "name" => "Niger"],
+            ["abbr" => "OG", "name" => "Ogun"],
+            ["abbr" => "ON", "name" => "Ondo"],
+            ["abbr" => "OS", "name" => "Osun"],
+            ["abbr" => "OY", "name" => "Oyo"],
+            ["abbr" => "PL", "name" => "Plateau"],
+            ["abbr" => "RI", "name" => "Rivers"],
+            ["abbr" => "SO", "name" => "Sokoto"],
+            ["abbr" => "TA", "name" => "Taraba"],
+            ["abbr" => "YO", "name" => "Yobe"],
+            ["abbr" => "ZA", "name" => "Zamfara"],
+        
+        ]
     ];
 
     protected function getSubject(string $country = null): string
@@ -185,7 +225,8 @@ abstract class Base implements Rule
         {
             case "US":
             case "MX":
-	    case "BR":
+            case "BR":
+            case "NG":
                 return "State";
             case "CA":
                 return "Province";
